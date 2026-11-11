@@ -51,7 +51,6 @@ nav ul{display:flex;gap:30px;list-style:none;margin:0;padding:0}
 nav a{text-decoration:none;font-size:.92rem;padding:6px 0;border-bottom:2px solid transparent}
 nav a:hover,nav a[aria-current]{border-color:var(--copper)}
 .menu-btn{display:none;width:44px;height:44px;padding:0;place-items:center;background:none;border:0;color:var(--gold);cursor:pointer}
-#menu .consult{display:none}
 .scrim{position:fixed;inset:0;z-index:40;background:rgba(30,22,15,.5)}
 .scrim[hidden]{display:none}
 
@@ -389,11 +388,6 @@ html[data-bg="b"] .hero{background:url(https://theganeshas.com/wp-content/upload
     display:block;padding:14px 4px;border-bottom:1px solid var(--line);
     color:var(--fg);text-shadow:none;font-size:1rem
   }
-  #menu .consult{
-    display:block;margin-top:20px;border:0;border-radius:999px;
-    background:var(--copper);color:#fff;text-align:center;font-weight:600
-  }
-  #menu .consult:hover{color:#fff;border-color:transparent}
 }
 /* Section: platform icons */
 .platforms{background:var(--bg-2);text-align:center}
@@ -480,7 +474,6 @@ section h2::after{content:"";display:block;width:44px;height:2px;margin-top:14px
         <li><a href="#gallery">Gallery</a></li>
         <li><a href="#blog">Blog</a></li>
       </ul>
-      <a class="consult" href="#consult">Consultation</a>
     </nav>
     </div>
 </header>
@@ -661,7 +654,7 @@ section h2::after{content:"";display:block;width:44px;height:2px;margin-top:14px
   </div>
 </section>
 
-<section class="final" id="consult">
+<section class="final">
   <div class="wrap">
     <h2>Tell us your dates. We’ll find the right place.</h2>
     <p>Message us on WhatsApp and a team member will reply with options and availability.</p>
