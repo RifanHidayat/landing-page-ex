@@ -106,6 +106,7 @@ section[id] { scroll-margin-top: 92px; }
   color: var(--ink); text-decoration: none;
   font: 800 1.55rem/1 var(--font-display); letter-spacing: -0.03em;
 }
+.menu-btn { display: none; }
 .main-nav { display: flex; gap: 2px; margin-left: auto; min-width: 0; }
 .main-nav a {
   padding: 8px 12px; border-radius: 4px;
@@ -113,16 +114,43 @@ section[id] { scroll-margin-top: 92px; }
   font: 600 0.92rem/1 var(--font-display);
 }
 .main-nav a:hover { background: var(--tint); }
+.main-nav .consult { display: none; }
 .head-cta { padding: 10px 16px; font-size: 0.88rem; }
+.scrim { position: fixed; inset: 0; z-index: 10; background: rgba(18, 49, 90, 0.45); }
+.scrim[hidden] { display: none; }
 @media (max-width: 880px) {
-  .main-nav { order: 3; width: 100%; margin-left: 0; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
-  .head-cta { margin-left: auto; }
-  section[id] { scroll-margin-top: 128px; }
+  .menu-btn {
+    display: grid; place-items: center; margin-left: auto;
+    width: 44px; height: 44px; padding: 0;
+    background: transparent; border: 0; color: var(--navy); cursor: pointer;
+  }
+  .head-cta { display: none; }
+  .main-nav {
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 2;
+    width: min(320px, 86vw); margin: 0;
+    flex-direction: column; gap: 0;
+    background: var(--surface); color: var(--ink);
+    padding: calc(24px + env(safe-area-inset-top, 0px)) 20px calc(20px + env(safe-area-inset-bottom, 0px));
+    box-shadow: -16px 0 40px rgba(18, 49, 90, 0.18);
+    overflow: auto;
+    transform: translateX(105%);
+    visibility: hidden;
+    transition: transform 0.28s ease;
+  }
+  .main-nav.open { transform: none; visibility: visible; }
+  .main-nav a {
+    display: block; padding: 14px 4px; border-radius: 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 1rem;
+  }
+  .main-nav .consult {
+    display: block; margin-top: 20px; border: 0; border-radius: 8px;
+    background: var(--amber); color: var(--on-amber); text-align: center;
+  }
+  .main-nav .consult:hover { background: var(--amber); color: var(--on-amber); filter: brightness(1.06); }
 }
 @media (max-width: 480px) {
   .brand { font-size: 1.25rem; }
-  .head-cta { padding: 8px 12px; }
-  .main-nav a { padding: 8px 10px; font-size: 0.85rem; }
   .article-page .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   .go { width: 40px; height: 40px; }
 }
@@ -405,7 +433,10 @@ section[id] { scroll-margin-top: 92px; }
       </svg>
       starfin
     </a>
-    <nav class="main-nav" aria-label="Bagian halaman">
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <svg width="22" height="16" viewBox="0 0 22 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1.5h20M1 8h20M1 14.5h20"/></svg>
+    </button>
+    <nav class="main-nav" id="menu" aria-label="Bagian halaman">
       <a href="#top">Home</a>
       <a href="#services">Layanan</a>
       <a href="#tim">Tim</a>
@@ -413,10 +444,12 @@ section[id] { scroll-margin-top: 92px; }
       <a href="#galeri">Galeri</a>
       <a href="#contact">Kontak</a>
       <a href="#insights">Artikel</a>
+      <a class="consult" href="#contact">Konsultasi gratis</a>
     </nav>
     <a class="btn btn-primary head-cta" href="#contact">Konsultasi gratis</a>
   </div>
 </header>
+<div class="scrim" id="scrim" hidden></div>
 
 <main id="top">
   <section class="hero">
@@ -1120,6 +1153,21 @@ section[id] { scroll-margin-top: 92px; }
   }
   window.addEventListener('hashchange', route);
   route();
+
+  var menuBtn = document.querySelector('.menu-btn');
+  var drawer = document.getElementById('menu');
+  var scrim = document.getElementById('scrim');
+  function setDrawer(open) {
+    drawer.classList.toggle('open', open);
+    scrim.hidden = !open;
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuBtn.setAttribute('aria-label', open ? 'Tutup' : 'Menu');
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  menuBtn.addEventListener('click', function () { setDrawer(!drawer.classList.contains('open')); });
+  scrim.addEventListener('click', function () { setDrawer(false); });
+  drawer.addEventListener('click', function (e) { if (e.target.tagName === 'A') setDrawer(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setDrawer(false); });
 
   var yr = document.getElementById('yr');
   if (yr) yr.textContent = String(new Date().getFullYear());

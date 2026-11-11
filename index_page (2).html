@@ -50,14 +50,10 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:va
 nav ul{display:flex;gap:30px;list-style:none;margin:0;padding:0}
 nav a{text-decoration:none;font-size:.92rem;padding:6px 0;border-bottom:2px solid transparent}
 nav a:hover,nav a[aria-current]{border-color:var(--copper)}
-.menu-btn{display:none;background:none;border:1.5px solid var(--gold);color:var(--gold);border-radius:999px;padding:8px 16px;font:500 .85rem var(--sans)}
-@media(max-width:900px){
-  nav{display:none;position:absolute;left:0;right:0;top:76px;background:var(--ink);padding:12px 20px 24px}
-  nav.open{display:block}
-  nav ul{flex-direction:column;gap:6px}
-  .menu-btn{display:block}
-  .nav .btn{display:none}
-}
+.menu-btn{display:none;width:44px;height:44px;padding:0;place-items:center;background:none;border:0;color:var(--gold);cursor:pointer}
+#menu .consult{display:none}
+.scrim{position:fixed;inset:0;z-index:40;background:rgba(30,22,15,.5)}
+.scrim[hidden]{display:none}
 
 /* hero */
 .hero{background:var(--ink);color:var(--cream);padding:clamp(40px,6vw,72px) 0 clamp(48px,6vw,72px);overflow:hidden}
@@ -195,6 +191,7 @@ footer p{font-size:.9rem;color:#cfc5bb;margin-top:16px;max-width:34ch}
 
 /* floating whatsapp */
 .wa{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:55;display:flex;align-items:center;gap:10px;padding:7px 20px 7px 7px;border-radius:999px;background:#fff;color:#2b2118;border:1px solid rgba(43,33,24,.14);text-decoration:none;font:500 .9rem var(--sans);box-shadow:0 10px 28px rgba(0,0,0,.22)}
+body.nav-open .wa{display:none}
 .wa svg{width:38px;height:38px;padding:8px;border-radius:50%;background:#25D366;fill:#fff}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 
@@ -265,7 +262,7 @@ html[data-bg="b"] .hero{position:relative;min-height:min(94vh,820px);display:fle
 .hero .wrap>div{max-width:640px}
 .hero h1{text-shadow:0 2px 24px rgba(0,0,0,.35)}
 .hero p.lead{text-shadow:0 1px 14px rgba(0,0,0,.4)}
-html[data-bg="b"] header.over nav a,html[data-bg="b"] header.over .logo{text-shadow:0 1px 10px rgba(0,0,0,.35)}
+html[data-bg="b"] header.over .logo{text-shadow:0 1px 10px rgba(0,0,0,.35)}
 html[data-bg="b"] .hero p.lead{color:#f3eadf}
 .hero .btn.ghost{color:#fff;border-color:rgba(255,255,255,.85)}
 html[data-bg="b"] .hero .btn.ghost:hover{background:rgba(255,255,255,.16)}
@@ -373,10 +370,30 @@ html[data-bg="b"] .hero{background:url(https://theganeshas.com/wp-content/upload
 .g6{background:url(https://theganeshas.com/wp-content/uploads/2025/07/The-Ganesha-Heritage-Villa-Lovina-05.jpg) center/cover no-repeat}
 .g7{background:url(https://theganeshas.com/wp-content/uploads/2025/07/The-Ganesha-Heritage-Villa-Lovina-11.jpg) center/cover no-repeat}
 .g8{background:url(https://theganeshas.com/wp-content/uploads/2025/07/The-Ganesha-Heritage-Villa-Lovina-12.jpg) center/cover no-repeat}
-/* Desktop: menu transparan (tanpa kotak hitam), teks putih seperti logo. Background gelap hanya untuk dropdown mobile */
 @media(min-width:901px){
   nav,html[data-bg="b"] nav,html[data-bg="c"] nav,header.over nav,html[data-bg="b"] header.over nav{background:transparent}
   header.over nav a{color:#fff}
+}
+@media(max-width:900px){
+  .menu-btn{display:grid;margin-left:auto}
+  #menu,html[data-bg="b"] header.over #menu,html[data-bg="c"] #menu,header.over #menu{
+    position:fixed;top:0;right:0;bottom:0;z-index:2;
+    width:min(320px,86vw);background:#fff;color:var(--fg);
+    padding:calc(24px + env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px));
+    box-shadow:-16px 0 40px rgba(43,33,24,.2);overflow:auto;
+    transform:translateX(105%);visibility:hidden;transition:transform .28s ease
+  }
+  #menu.open,html[data-bg="b"] header.over #menu.open,html[data-bg="c"] #menu.open,header.over #menu.open{transform:none;visibility:visible}
+  #menu ul{flex-direction:column;gap:0}
+  #menu a,header.over #menu a,html[data-bg="b"] header.over #menu a{
+    display:block;padding:14px 4px;border-bottom:1px solid var(--line);
+    color:var(--fg);text-shadow:none;font-size:1rem
+  }
+  #menu .consult{
+    display:block;margin-top:20px;border:0;border-radius:999px;
+    background:var(--copper);color:#fff;text-align:center;font-weight:600
+  }
+  #menu .consult:hover{color:#fff;border-color:transparent}
 }
 /* Section: platform icons */
 .platforms{background:var(--bg-2);text-align:center}
@@ -450,7 +467,9 @@ section h2::after{content:"";display:block;width:44px;height:2px;margin-top:14px
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#e0a96d" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 20c4-7 12-6 12 0s-8 7-12 0-12-6-12 0 8 7 12 0Z"/><path d="M22 6c5-2 10 2 7 7"/></svg>
       <span><b>THE GANESHAS</b><small>PROPERTY MANAGEMENT</small></span>
     </a>
-    <button class="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu">
+      <svg width="22" height="16" viewBox="0 0 22 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1.5h20M1 8h20M1 14.5h20"/></svg>
+    </button>
     <nav id="menu" aria-label="Main">
       <ul>
         <li><a href="#top" aria-current="page">Home</a></li>
@@ -461,9 +480,11 @@ section h2::after{content:"";display:block;width:44px;height:2px;margin-top:14px
         <li><a href="#gallery">Gallery</a></li>
         <li><a href="#blog">Blog</a></li>
       </ul>
+      <a class="consult" href="#consult">Consultation</a>
     </nav>
     </div>
 </header>
+<div class="scrim" id="scrim" hidden></div>
 
 <main id="top"><div id="view-home">
 <section class="hero"><span class="hero-note">Foto hero: ganti dengan foto asli</span>
@@ -640,7 +661,7 @@ section h2::after{content:"";display:block;width:44px;height:2px;margin-top:14px
   </div>
 </section>
 
-<section class="final">
+<section class="final" id="consult">
   <div class="wrap">
     <h2>Tell us your dates. We’ll find the right place.</h2>
     <p>Message us on WhatsApp and a team member will reply with options and availability.</p>
@@ -814,9 +835,12 @@ section h2::after{content:"";display:block;width:44px;height:2px;margin-top:14px
 
 <script>
 (function(){
-  var btn=document.querySelector('.menu-btn'),nav=document.getElementById('menu');
-  btn.addEventListener('click',function(){var o=nav.classList.toggle('open');btn.setAttribute('aria-expanded',o)});
-  nav.addEventListener('click',function(e){if(e.target.tagName==='A'){nav.classList.remove('open');btn.setAttribute('aria-expanded','false')}});
+  var btn=document.querySelector('.menu-btn'),nav=document.getElementById('menu'),scrim=document.getElementById('scrim');
+  function setDrawer(open){nav.classList.toggle('open',open);scrim.hidden=!open;btn.setAttribute('aria-expanded',open?'true':'false');btn.setAttribute('aria-label',open?'Close':'Menu');document.body.style.overflow=open?'hidden':'';document.body.classList.toggle('nav-open',open)}
+  btn.addEventListener('click',function(){setDrawer(!nav.classList.contains('open'))});
+  scrim.addEventListener('click',function(){setDrawer(false)});
+  nav.addEventListener('click',function(e){if(e.target.closest('a'))setDrawer(false)});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')setDrawer(false)});
   var chips=document.querySelectorAll('.chip'),cards=document.querySelectorAll('.card');
   chips.forEach(function(c){c.addEventListener('click',function(){
     chips.forEach(function(x){x.setAttribute('aria-pressed','false')});c.setAttribute('aria-pressed','true');
